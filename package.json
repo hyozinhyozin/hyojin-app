@@ -1,0 +1,26 @@
+{
+  "name": "hyojin-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-pg-simple": "^9.0.1",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "nodemailer": "^6.9.13",
+    "node-cron": "^3.0.3",
+    "pg": "^8.11.5",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "pg-mem": "^3.0.3",
+    "supertest": "^7.0.0"
+  }
+}
