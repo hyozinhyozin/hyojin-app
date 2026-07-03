@@ -89,7 +89,7 @@ cp -r "/c/Users/user/Desktop/AI/docs/superpowers" "docs/"
     "test": "node --test"
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "connect-pg-simple": "^9.0.1",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
@@ -275,7 +275,7 @@ git commit -m "feat: db schema and test harness"
 ```javascript
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { makeTestPool, seedSchema } from './helpers.js';
 import { attemptLogin, verifyUnlock } from '../src/auth.js';
 
@@ -345,7 +345,7 @@ export async function sendUnlockCode(mailer, to, code, env = process.env) {
 
 ```javascript
 import express from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 function sixDigit() { return String(Math.floor(100000 + Math.random() * 900000)); }
 
@@ -837,7 +837,7 @@ if (process.env.NODE_ENV !== 'test' && import.meta.url === `file://${process.arg
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import request from 'supertest';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { makeTestPool } from './helpers.js';
 import { createApp } from '../src/server.js';
 
@@ -1308,7 +1308,7 @@ git commit -m "feat: PWA manifest, service worker, icons"
 - [ ] **Step 1: src/seed.js 작성 (초기 사용자 생성 스크립트)**
 
 ```javascript
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { createPool, migrate } from './db.js';
 
 const [,, username, password, email] = process.argv;
