@@ -8,6 +8,8 @@ services:
     envVars:
       - key: DATABASE_URL
         sync: false
+      - key: DB_SCHEMA
+        value: hyojin
       - key: SESSION_SECRET
         generateValue: true
       - key: VAPID_PUBLIC

@@ -5,8 +5,8 @@ try { process.loadEnvFile?.(); } catch { /* .env 없음 — 무시 */ }
 
 const [,, username, password, email] = process.argv;
 if (!username || !password || !email) { console.error('usage: node src/seed.js <username> <password> <email>'); process.exit(1); }
-const pool = createPool(process.env.DATABASE_URL);
-await migrate(pool);
+const pool = createPool(process.env.DATABASE_URL, process.env.DB_SCHEMA);
+await migrate(pool, process.env.DB_SCHEMA);
 const hash = await bcrypt.hash(password, 10);
 await pool.query(
   `INSERT INTO users(username,password_hash,email) VALUES($1,$2,$3)
