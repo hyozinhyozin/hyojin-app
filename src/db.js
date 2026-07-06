@@ -1,5 +1,9 @@
 import pg from 'pg';
 
+// DATE 컬럼(OID 1082)을 JS Date로 변환하지 않고 'YYYY-MM-DD' 문자열 그대로 반환.
+// (기본 파서는 로컬 자정 Date로 만들어 JSON 직렬화 시 타임존만큼 날짜가 밀린다)
+pg.types.setTypeParser(1082, (v) => v);
+
 export function createPool(connectionString) {
   return new pg.Pool({ connectionString, ssl: connectionString?.includes('localhost') ? false : { rejectUnauthorized: false } });
 }
