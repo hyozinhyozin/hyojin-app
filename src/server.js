@@ -52,6 +52,8 @@ function startCron(pool) {
 
 const invokedPath = process.argv[1] ? process.argv[1].replace(/\\/g, '/') : '';
 if (process.env.NODE_ENV !== 'test' && import.meta.url === `file://${invokedPath}`) {
+  // 로컬 개발용 .env 자동 로드(있을 때만). Render 등 배포 환경은 .env가 없어 조용히 건너뜀.
+  try { process.loadEnvFile?.(); } catch { /* .env 없음 — 무시 */ }
   const pool = createPool(process.env.DATABASE_URL);
   const app = await createApp(pool);
   startCron(pool);
