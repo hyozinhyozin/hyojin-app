@@ -17,6 +17,8 @@ export async function createApp(pool, env = process.env) {
   configurePush(env);
   const mailer = makeMailer(env);
   const app = express();
+  // Render 등 리버스 프록시 뒤에서 X-Forwarded-Proto를 신뢰해야 secure 쿠키가 정상 전송됨.
+  if (env.NODE_ENV === 'production') app.set('trust proxy', 1);
   app.use(express.json());
   // 테스트 환경(pg-mem)에서는 connect-pg-simple가 세션 테이블을 못 만들므로 기본 MemoryStore 사용.
   const sessionOpts = {
