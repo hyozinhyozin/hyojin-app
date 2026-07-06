@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HYOJIN 로그인</title><link rel="stylesheet" href="/css/app.css">
+</head><body>
+<div class="wrap">
+  <h1 class="display" style="font-size:44px;margin:24px 0">HYOJIN</h1>
+  <div class="panel">
+    <div id="loginForm">
+      <input id="username" placeholder="아이디" autocomplete="username"><br><br>
+      <input id="password" type="password" placeholder="비밀번호" autocomplete="current-password"><br><br>
+      <button class="btn-red" id="loginBtn" style="width:100%">로그인</button>
+      <p id="msg" style="color:#f6e01e"></p>
+    </div>
+    <div id="unlockForm" style="display:none">
+      <p>계정이 잠겼습니다. 메일로 받은 6자리 코드를 입력하세요.</p>
+      <input id="code" placeholder="해제 코드"><br><br>
+      <button class="btn-red" id="unlockBtn" style="width:100%">잠금 해제</button>
+      <p id="umsg" style="color:#f6e01e"></p>
+    </div>
+  </div>
+</div>
+<script type="module">
+import { fetchJSON } from '/js/api.js';
+const $ = id => document.getElementById(id);
+$('loginBtn').onclick = async () => {
+  try {
+    await fetchJSON('/api/login', { method:'POST', body:{ username:$('username').value, password:$('password').value }});
+    location.href = '/';
+  } catch (e) {
+    if (e.status === 423) { $('loginForm').style.display='none'; $('unlockForm').style.display='block'; }
+    else if (e.data?.attempts) $('msg').textContent = `비밀번호 오류 (${e.data.attempts}/5)`;
+    else $('msg').textContent = '로그인 실패';
+  }
+};
+$('unlockBtn').onclick = async () => {
+  try { await fetchJSON('/api/unlock', { method:'POST', body:{ username:$('username').value, code:$('code').value }});
+    $('unlockForm').style.display='none'; $('loginForm').style.display='block'; $('msg').textContent='잠금 해제됨. 다시 로그인하세요.';
+  } catch { $('umsg').textContent = '코드가 올바르지 않거나 만료됨'; }
+};
+</script>
+</body></html>
